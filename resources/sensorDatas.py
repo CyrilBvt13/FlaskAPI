@@ -13,7 +13,7 @@ class SensorDatasAPI(Resource):
         args['id'] = id
         print(args)
         db.insert(args)
-        return args, 201
+        return {'id': str(args['id'])}, 201
 
 class SensorDataAPI(Resource):
     def get(self, uid):

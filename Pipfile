@@ -8,6 +8,7 @@ flask = "*"
 flask-restful = "*"
 tinydb = "*"
 flask-bcrypt = "*"
+flask-jwt-extended = "*"
 
 [dev-packages]
 

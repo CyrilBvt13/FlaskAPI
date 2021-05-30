@@ -1,3 +1,5 @@
+#~/FlaskAPI/database/models.py
+
 from flask_restful import reqparse
 from flask_bcrypt import generate_password_hash, check_password_hash
 
@@ -11,6 +13,13 @@ class SensorData:
 
 class User:
     user_args = reqparse.RequestParser()
+    user_args.add_argument("id", type=str)
     user_args.add_argument("email", type=str, help="email is missing", required=True)
     user_args.add_argument("password", type=str, help="password is missing", required=True)
     
+    def hash_password(password):
+        hashedPassword = generate_password_hash(password).decode('utf8')
+        return hashedPassword
+ 
+    def check_password(hashedPassword, password):
+        return check_password_hash(hashedPassword, password)
