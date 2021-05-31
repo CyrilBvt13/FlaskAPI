@@ -13,16 +13,17 @@ class SignupAPI(Resource):
         id = uuid.uuid4().hex
         args = User.user_args.parse_args()
         args['id'] = id
-        print(args['password'])
         args['password'] = User.hash_password(args['password'])
-        print(args['password'])
         db.insert(args)
         return {'id': str(args['id'])}, 201
 
 class LoginAPI(Resource):
     def put(self):
         args = User.user_args.parse_args()
-        authorized = User.check_password(args['password'])
+        hashedPasswordQuery = db.search(query.email == args['email'])
+        hashedPassword = hashedPasswordQuery[0]['password']
+        password = args['password']
+        authorized = User.check_password(hashedPassword, password)
         if not authorized:
             return {'error': 'Email or password invalid'}, 401
  
